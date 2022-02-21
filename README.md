@@ -3,10 +3,14 @@ Simple Python script to roll on expanding random tables.
 
 # USAGE
 ## Writing table files
-Write table files with one entry per line. If you want to
-expand a table to another file, put the name of the table
-that you're expanding with the relative path from the original
-file in brackets "[]". Example:
+Write table files with one entry per line. 
+
+By default, parser.py will always expect all tables to be in a
+directory called "lib" placed in the same directory as parser.py.
+
+If you want to expand a table to another file, put the name of 
+the table that you're expanding with the relative path from the 
+default directory surrounded by brackets "[]". Example:
 
 exampletable.txt
 entry 1
@@ -15,6 +19,9 @@ entry 3
 [imported-tables/exampletable2.txt]
 [imported-tables/exampletable2.txt]
 entry 6
+
+By default, parser.py will always expect all tables to be in a
+directory called "lib" placed in the same directory as parser.py.
 
 ## Parsing tables
 To generate an entry from this table, enclose the name of the file
