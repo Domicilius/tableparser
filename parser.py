@@ -6,8 +6,6 @@ import os
 
 def expand(token):
     
-    #basedir = "/home/mobaxterm/adatabletop/tables/lib/mazerats-"
-    #basedir = "/home/mobaxterm/adatabletop/tables/lib/"
     basedir = sys.path[0] + "/lib/"
     tokensalt = token.strip('[').strip(']').lower().replace(" ", "-")
 
@@ -30,13 +28,17 @@ def mathexpand(token):
     token = token.strip("}")
 
     z = 0
+    bar = ""
     if "+" in token:
         token = token.split('+')
         z = token[1]
+        bar = token[0].split("d")
     elif "-" in token:
         token = token.split('-')
         z = token[1]
-    bar = token[0].split("d")
+        bar = token[0].split("d")
+    if bar == "":
+        bar = token.split("d")
     x = bar[0]
     y = bar[1]
     output = 0
@@ -44,6 +46,7 @@ def mathexpand(token):
         output += random.randrange(1, int(y)+1)
 
     return str(output+(int(z))) + " "
+    return bar
 
 def stitch(intext):
     # pretty sure this function turns everything between two [] into one token
