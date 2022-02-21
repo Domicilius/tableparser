@@ -5,7 +5,7 @@ import re
 import os
 
 def expand(token):
-
+    
     #basedir = "/home/mobaxterm/adatabletop/tables/lib/mazerats-"
     #basedir = "/home/mobaxterm/adatabletop/tables/lib/"
     basedir = sys.path[0] + "/lib/"
@@ -21,7 +21,32 @@ def expand(token):
 
     return token
 
+def mathexpand(token):
+    # assumption: token is of form {xdy+z}
+
+    # get rid of the {
+    token = token.strip("{").lower().strip("\n")
+    token = token.strip(" ")
+    token = token.strip("}")
+
+    z = 0
+    if "+" in token:
+        token = token.split('+')
+        z = token[1]
+    elif "-" in token:
+        token = token.split('-')
+        z = token[1]
+    bar = token[0].split("d")
+    x = bar[0]
+    y = bar[1]
+    output = 0
+    for i in range(0, int(x)):
+        output += random.randrange(1, int(y)+1)
+
+    return str(output+(int(z))) + " "
+
 def stitch(intext):
+    # pretty sure this function turns everything between two [] into one token
     intext = re.split(r'([\[\]])', intext)
     if intext[0] == "":
         del intext[0]
@@ -43,12 +68,17 @@ def stitch(intext):
     return intext
     
 def expandline(intextline):
+    # this function recursively fills in the contents of a line, expanding all [] to 
+    # table entries
     output = ""
     for j in range(0, len(intextline)):
         token = intextline[j]
 
         if "[" in token:
             token = expand(token)
+
+        if "{" in token:
+            token = mathexpand(token)
         
         output = output + token
 
